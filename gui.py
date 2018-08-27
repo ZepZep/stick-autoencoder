@@ -28,15 +28,24 @@ class MainFrame(Frame):
             self.sliders = self._create_sliders(slider_frame, 5, self._slider_moved)
 
         self.canvas = ImageCanvas(self, 128, 128)
-        self.canvas.pack()
+        self.canvas.pack(side=LEFT)
+
+        with PackFrame(self, side=LEFT) as slider_frame:
+            self.nn_sliders = self._create_sliders(slider_frame, 16, self._slider_moved)
+
+        self.nn_canvas = ImageCanvas(self, 128, 128)
+        self.nn_canvas.pack(side=LEFT)
 
         self.update_image()
 
+        self.after(500, self.update_timeout)
+
+    def update_timeout(self):
+        self.after(500, self.update_timeout)
 
     def update_image(self):
         values = [slider.get() / 180 * math.pi for slider in self.sliders]
         stick_img = get_stick(values)
-        print(np.array(stick_img, dtype=np.float32).shape)
         self.canvas.set_image(stick_img)
 
 
