@@ -21,6 +21,15 @@ class ImageCanvas(Canvas):
 
         self.delete("all")
         self.img = img
-        self.tkimg = ImageTk.BitmapImage(img)
+        
+        if img.mode == "1":
+            self.tkimg = ImageTk.BitmapImage(img)
+        else:
+            self.tkimg = ImageTk.PhotoImage(img)
+            
+        #try:
+            #self.tkimg = ImageTk.BitmapImage(img)
+        #except ValueError:
+            
         ipos = (self.width/2, self.height/2)
         self.imagesprite = self.create_image(ipos, image=self.tkimg)
